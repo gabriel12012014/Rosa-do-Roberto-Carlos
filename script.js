@@ -6,7 +6,7 @@
     const flashOverlay = document.querySelector(".flash-overlay");
     console.log("Easter Egg Timer Fired. Overlay found?", !!flashOverlay);
 
-    if (flashOverlay) {
+    if (flashOverlay && Math.random() > 0.5) {
       flashOverlay.classList.add("active");
       console.log("Easter Egg: SHOWING");
       setTimeout(() => {
@@ -14,7 +14,7 @@
         console.log("Easter Egg: HIDING");
       }, 100);
     } else {
-      console.log("Easter Egg Error: Overlay not found in DOM");
+      console.log("Easter Egg: Skipped (Random) or Not Found");
     }
   }, 1000);
 
@@ -445,6 +445,10 @@
     });
   }
 
+  // Click Counter for "Loot Box" logic
+  let clickCount = 0;
+  const CLICKS_TO_OPEN = 5;
+
   // Global Click Listener for "Click to Play"
   function handleStartInteraction(event) {
     // Check if click is on the share button or inside it
@@ -453,6 +457,35 @@
     }
 
     if (!hasInteracted) {
+      clickCount++;
+      const clicksRemaining = CLICKS_TO_OPEN - clickCount;
+      const overlay = document.querySelector(".start-overlay");
+
+      if (clickCount < CLICKS_TO_OPEN) {
+        // Shake Effect
+        const videoWrapper = document.querySelector(".video-wrapper");
+        if (videoWrapper) {
+          // Progressive Intensity
+          const intensity = 1 + (clickCount * 0.1); // 1.1, 1.2, 1.3, 1.4
+          const scaleFactor = 1.02 + (clickCount * 0.02); // 1.04, 1.06, 1.08, 1.10
+
+          videoWrapper.style.setProperty("--intensity", intensity);
+          videoWrapper.style.setProperty("--scale-factor", scaleFactor);
+
+          videoWrapper.classList.remove("shake-animation"); // Reset
+          void videoWrapper.offsetWidth; // Trigger reflow
+          videoWrapper.classList.add("shake-animation");
+        }
+
+        // Hide Overlay on first click
+        if (clickCount === 1 && overlay) {
+          overlay.classList.add("hidden");
+        }
+
+        return; // Don't start yet
+      }
+
+      // If we reach here, it's the 5th click
       hasInteracted = true;
 
       // Switch to intro video
@@ -473,7 +506,6 @@
       }).catch(e => console.log("Music play failed", e));
 
       // Hide Overlay
-      const overlay = document.querySelector(".start-overlay");
       if (overlay) {
         overlay.classList.add("hidden");
       }
@@ -488,9 +520,10 @@
 
   document.addEventListener("click", handleStartInteraction);
 
+
   const overlay = document.querySelector(".start-overlay");
-  if (overlay) {
-    overlay.addEventListener("click", handleStartInteraction);
-  }
+  // The global 'click' listener covers everything including the overlay.
+  // We do NOT add a specific listener to overlay here to avoid double-counting.
+
 
 })();

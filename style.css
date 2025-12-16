@@ -62,10 +62,10 @@
       font-family: "Fugaz One", sans-serif;
       font-weight: 400;
       font-style: normal;
-      font-size: clamp(30px, 6vw, 60px);
-      text-align: center;
       line-height: 1.2;
       margin-bottom: 16px;
+      transform: rotate(-5deg);
+      font-size: clamp(24px, 5vw, 50px);
 
       /* Shiny Text Effect */
       background-image: url('https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExaWFnNGk3OHV4ZWpjYWtsMzJ4MGxqZGFtZHkzOTUxOTRvd2ZvbG09aiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ECWLeGxcKasCc/giphy.gif');
@@ -82,9 +82,33 @@
 
       /* White Stroke */
       -webkit-text-stroke: 2px white;
+    }
 
-      /* Drop Shadow */
-      filter: drop-shadow(4px 4px 0px rgba(0, 0, 0, 0.2));
+    @keyframes shake {
+      0% {
+        transform: translate(0, 0) rotate(0deg) scale(var(--scale-factor, 1.02));
+      }
+
+      25% {
+        transform: translate(calc(-3px * var(--intensity, 1)), calc(1px * var(--intensity, 1))) rotate(calc(-2deg * var(--intensity, 1))) scale(var(--scale-factor, 1.02));
+      }
+
+      50% {
+        transform: translate(calc(3px * var(--intensity, 1)), calc(-1px * var(--intensity, 1))) rotate(calc(2deg * var(--intensity, 1))) scale(var(--scale-factor, 1.02));
+      }
+
+      75% {
+        transform: translate(calc(-2px * var(--intensity, 1)), calc(1px * var(--intensity, 1))) rotate(calc(-1deg * var(--intensity, 1))) scale(var(--scale-factor, 1.02));
+      }
+
+      100% {
+        transform: translate(0, 0) rotate(0deg) scale(var(--scale-factor, 1.02));
+      }
+    }
+
+    .shake-animation {
+      animation: shake 0.4s ease-in-out;
+      animation-iteration-count: 1;
     }
 
     .quote-song {

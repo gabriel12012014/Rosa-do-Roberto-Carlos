@@ -1,25 +1,11 @@
 // Dados das Rosas (Vídeos e Cores)
 window.videosData = [
     {
-        start: "rosa-v2-quadrado-inicio.mp4",
-        intro: "rosa-v2-quadrado.mp4",
-        loop: "rosa-v2-quadrado-loop.mp4",
+        start: "assets/robertin_caixa-mexendo.mp4",
+        intro: "assets/robertin_caixa-abrindo.mp4",
+        loop: "assets/robertin_petalas-caindo.mp4",
         colorClass: "is-pink",
         hex: "#FFC0CB" // Rosa
-    },
-    {
-        start: "rosa-v3_playblast-inicio.mp4",
-        intro: "rosa-v3_playblast.mp4",
-        loop: "rosa-v3_playblast-loop.mp4",
-        colorClass: "is-gray",
-        hex: "#808080" // Cinza
-    },
-    {
-        start: "rosa-inicio.mp4",
-        intro: "rosa.mp4",
-        loop: "rosa.mp4",
-        colorClass: "is-gray",
-        hex: "#808080" // Cinza
     }
 ];
 
