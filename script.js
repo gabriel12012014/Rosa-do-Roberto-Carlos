@@ -131,7 +131,11 @@
 
     if (quote) {
       quoteTextElement.textContent = `"${quote.text}"`;
-      quoteSongElement.textContent = quote.song;
+      if (quote.year) {
+        quoteSongElement.textContent = `${quote.song} - ${quote.artist} (${quote.year})`;
+      } else {
+        quoteSongElement.textContent = `${quote.song} - ${quote.artist}`;
+      }
 
       // Update background music
       const bgMusic = document.getElementById("bg-music"); // Re-select to be sure
@@ -184,6 +188,20 @@
       mainVideo.loop = true;
       mainVideo.muted = true; // Autoplay requires muted
       mainVideo.play().catch(e => console.log("Start video play failed", e));
+
+      // 1. Preload Intro when Start is loaded
+      mainVideo.onloadeddata = () => {
+        const preloadIntro = document.createElement("video");
+        preloadIntro.preload = "auto";
+        preloadIntro.src = currentVideoObj.intro;
+
+        // 2. Preload Loop when Intro is loaded
+        preloadIntro.onloadeddata = () => {
+          const preloadLoop = document.createElement("video");
+          preloadLoop.preload = "auto";
+          preloadLoop.src = currentVideoObj.loop;
+        };
+      };
     } else {
       mainVideo.src = currentVideoObj.intro;
       mainVideo.loop = false;
@@ -467,7 +485,7 @@
         if (videoWrapper) {
           // Progressive Intensity
           const intensity = 1 + (clickCount * 0.1); // 1.1, 1.2, 1.3, 1.4
-          const scaleFactor = 1.02 + (clickCount * 0.02); // 1.04, 1.06, 1.08, 1.10
+          const scaleFactor = 1.02 + (clickCount * 0.005); // 1.025, 1.03, 1.035, 1.04
 
           videoWrapper.style.setProperty("--intensity", intensity);
           videoWrapper.style.setProperty("--scale-factor", scaleFactor);
