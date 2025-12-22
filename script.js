@@ -465,7 +465,7 @@
 
   // Click Counter for "Loot Box" logic
   let clickCount = 0;
-  const CLICKS_TO_OPEN = 5;
+  const CLICKS_TO_OPEN = 1;
 
   // Global Click Listener for "Click to Play"
   function handleStartInteraction(event) {

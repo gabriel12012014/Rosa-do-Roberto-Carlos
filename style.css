@@ -658,3 +658,22 @@
       height: 100%;
       object-fit: cover;
     }
+
+    /* Responsive Start Text */
+    .start-overlay .mobile-text {
+      display: none;
+    }
+
+    .start-overlay .desktop-text {
+      display: inline;
+    }
+
+    @media (max-width: 768px) {
+      .start-overlay .mobile-text {
+        display: inline;
+      }
+
+      .start-overlay .desktop-text {
+        display: none;
+      }
+    }
