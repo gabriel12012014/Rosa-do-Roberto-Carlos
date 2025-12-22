@@ -24,8 +24,8 @@
 
 
   <div class="start-overlay">
-    <span class="desktop-text">Clique na tela para abrir seu presente</span>
-    <span class="mobile-text">Toque na tela para abrir seu presente</span>
+    <span class="desktop-text"><b>Clique na tela</b><br>para abrir seu presente</span>
+    <span class="mobile-text"><b>Toque na tela</b><br>para abrir seu presente</span>
   </div>
   <audio id="bg-music" src="como-e-grande-meu-amor.mp3" loop></audio>
 
@@ -57,17 +57,41 @@
     <div class="modal-content">
       <h2 class="modal-title">Compartilhe sua rosa</h2>
       <p class="modal-subtitle">Personalize sua rosa e mande para uma pessoa especial!</p>
-      <div class="modal-buttons"></div>
-
-      <div class="quote-select-container">
-        <label class="quote-select-label">Escolha a frase</label>
-        <div class="custom-select-wrapper">
-          <div class="custom-select-trigger">
-            <span class="trigger-text">Aleatória</span>
-            <div class="arrow"></div>
+      <div class="selection-row">
+        <div class="quote-select-container">
+          <label class="quote-select-label">Escolha a frase</label>
+          <div class="custom-select-wrapper">
+            <div class="custom-select-trigger">
+              <span class="trigger-text">Aleatória</span>
+              <div class="arrow"></div>
+            </div>
+            <div class="custom-options">
+              <!-- Options injected by JS -->
+            </div>
           </div>
-          <div class="custom-options">
-            <!-- Options injected by JS -->
+        </div>
+
+        <div class="color-select-container">
+          <label class="quote-select-label">Cor</label>
+          <div class="color-select-trigger" aria-label="Escolher cor">
+            <!-- Active color shown here -->
+          </div>
+          <div class="color-options-popup">
+            <!-- Colors injected by JS -->
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+      <div class="preview-container">
+        <video class="preview-video" muted playsinline loop autoplay></video>
+        <div class="preview-overlay">
+          <div class="preview-caption-content">
+            <p class="preview-quote"></p>
+            <p class="preview-song"></p>
           </div>
         </div>
       </div>
@@ -95,8 +119,6 @@
 
       <div class="copy-feedback">Link Copiado!</div>
       <div class="validation-toast">Escolha uma cor da rosa!</div>
-
-      <button class="close-modal">Fechar</button>
     </div>
   </div>
 

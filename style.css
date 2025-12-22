@@ -84,7 +84,7 @@
       text-shadow: none;
 
       /* White Stroke */
-      -webkit-text-stroke: 2px white;
+      -webkit-text-stroke: 1px white;
 
       /* Pulse Animation */
       animation: heartbeat 5s infinite ease-in-out;
@@ -247,41 +247,86 @@
       font-weight: 400;
     }
 
-    .modal-buttons {
+    /* Updated Selection UI */
+    .selection-row {
       display: flex;
-      justify-content: flex-start;
       gap: 12px;
+      align-items: flex-start;
+      /* Align to top so labels and inputs line up */
       margin-bottom: 24px;
     }
 
-    .share-option-button {
-      width: 48px;
-      height: 48px;
-      border-radius: 8px;
-      border: 2px solid transparent;
-      cursor: pointer;
-      transition: all 0.2s ease;
+    .quote-select-container {
+      flex: 1;
+      margin-bottom: 0;
+      /* Remove bottom margin as it is handled by row */
+    }
+
+    .color-select-container {
       position: relative;
-      padding: 0;
+      width: 48px;
     }
 
-    .share-option-button.is-pink {
-      background: #f03a47;
-      /* HotPink or similar */
+    .color-select-trigger {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: all 0.2s;
+      background-size: cover;
+      background-position: center;
     }
 
-    .share-option-button.is-gray {
-      background: #808080;
-    }
-
-    .share-option-button:hover {
+    .color-select-trigger:hover {
       transform: scale(1.05);
+      border-color: #ddd;
     }
 
-    .share-option-button.selected {
+    .color-options-popup {
+      position: absolute;
+      bottom: 100%;
+      right: 0;
+      background: white;
+      border-radius: 12px;
+      padding: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: all 0.2s cubic-bezier(0.5, 0, 0, 1.25);
+      z-index: 20;
+      margin-bottom: 8px;
+      min-width: 60px;
+      align-items: center;
+    }
+
+    .color-options-popup.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .color-option {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: transform 0.2s;
+    }
+
+    .color-option:hover {
+      transform: scale(1.1);
+    }
+
+    .color-option.selected {
       border-color: #333;
       transform: scale(1.1);
-      box-shadow: none;
     }
 
     .copy-link-button {
@@ -381,7 +426,8 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 12px;
+      padding: 0 12px;
+      height: 44px;
       font-size: 14px;
       font-weight: 400;
       color: #333;
@@ -676,4 +722,79 @@
       .start-overlay .desktop-text {
         display: none;
       }
+    }
+
+    /* Share Preview Styles */
+    .preview-container {
+      width: 50%;
+      margin: 0 auto 24px auto;
+      aspect-ratio: 9 / 16;
+      background: #000;
+      border-radius: 12px;
+      overflow: hidden;
+
+      position: relative;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .preview-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .preview-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: flex-end;
+      z-index: 10;
+      /* Align to bottom */
+      justify-content: center;
+      padding-bottom: 40px;
+      /* Similar to bottom: 100px on main, scaled down */
+      background: rgba(0, 0, 0, 0);
+      /* Transparent background, remove dark overlay if not needed or keep light */
+    }
+
+    .preview-caption-content {
+      text-align: center;
+      width: 90%;
+      pointer-events: none;
+      /* Rotate container to match main screen */
+      transform: rotate(-5deg);
+    }
+
+    .preview-quote {
+      font-family: "Norican", cursive;
+      font-weight: 400;
+      font-size: 16px;
+      /* Scaled down from clamp(24px...) */
+      line-height: 1.2;
+      color: transparent;
+      text-align: center;
+      margin-bottom: 4px;
+
+      /* Shiny Text Effect */
+      background-image: url('https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExaWFnNGk3OHV4ZWpjYWtsMzJ4MGxqZGFtZHkzOTUxOTRvd2ZvbG09aiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ECWLeGxcKasCc/giphy.gif');
+      background-size: 200px;
+      background-repeat: repeat;
+      background-position: center;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      -webkit-text-stroke: 0.5px white;
+      text-shadow: none;
+    }
+
+    .preview-song {
+      color: #fff;
+      font-size: 8px;
+      /* Scaled down */
+      font-weight: 300;
+      opacity: 0.8;
+      font-style: italic;
+      margin-top: 4px;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
     }

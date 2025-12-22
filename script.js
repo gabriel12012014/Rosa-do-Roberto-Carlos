@@ -24,11 +24,12 @@
 
   const mainVideo = document.querySelector(".video-wrapper video");
   const modalOverlay = document.querySelector(".modal-overlay");
-  const modalButtonsContainer = document.querySelector(".modal-buttons");
   const mainShareButton = document.querySelector(".main-share-button");
   const closeModalButton = document.querySelector(".close-modal");
   const quoteTextElement = document.querySelector(".quote-text");
   const quoteSongElement = document.querySelector(".quote-song");
+  // const previewVideo = document.querySelector(".preview-video"); // Removed to check dynamically
+  // const previewQuote = document.querySelector(".preview-quote"); // Removed to check dynamically
 
   if (!videosData || videosData.length === 0) {
     console.error("videosData not found or empty!");
@@ -100,6 +101,8 @@
 
     // Close dropdown
     if (customSelectWrapper) customSelectWrapper.classList.remove("open");
+
+    updatePreview();
   }
 
   // Toggle Dropdown
@@ -256,6 +259,7 @@
     // For now, let's reset video selection as requested before.
     selectedVideoIndex = null;
     updateSelectionUI();
+    updatePreview();
 
     // Reset quote select to "Aleatória" (-1)
     currentQuoteSelection = "-1";
@@ -289,44 +293,78 @@
     }
   });
 
+  // Color Selection Logic
+  const colorSelectTrigger = document.querySelector(".color-select-trigger");
+  const colorOptionsPopup = document.querySelector(".color-options-popup");
+
   function updateSelectionUI() {
-    const buttons = modalButtonsContainer.querySelectorAll(".share-option-button");
-    buttons.forEach((btn, index) => {
+    // Update Trigger Appearance
+    if (selectedVideoIndex !== null && videosData[selectedVideoIndex]) {
+      const videoObj = videosData[selectedVideoIndex];
+      colorSelectTrigger.style.backgroundColor = videoObj.hex;
+      colorSelectTrigger.innerHTML = ""; // Clear if previously set
+    } else {
+      // Default state (maybe random or prompt?)
+      colorSelectTrigger.style.backgroundColor = "#ddd";
+      colorSelectTrigger.innerHTML = '<span style="display:flex;align-items:center;justify-content:center;height:100%;font-size:20px;color:#666;">?</span>';
+    }
+
+    // Update Popup Options
+    const options = colorOptionsPopup.querySelectorAll(".color-option");
+    options.forEach((opt, index) => {
       if (index === selectedVideoIndex) {
-        btn.classList.add("selected");
+        opt.classList.add("selected");
       } else {
-        btn.classList.remove("selected");
+        opt.classList.remove("selected");
       }
     });
 
-    // The copy link button is now part of the social share buttons and its state is handled by the feedback mechanism.
-    // The old copyLinkButton and its active class logic is removed.
+    // Close popup if open
+    if (colorOptionsPopup) colorOptionsPopup.classList.remove("open");
   }
 
-  // Generate Share Buttons
-  if (modalButtonsContainer) {
-    videosData.forEach(function (videoObj, index) {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "share-option-button " + (videoObj.colorClass || "");
-      button.setAttribute("aria-label", "Opção " + (index + 1));
+  // Generate Color Options
+  if (colorOptionsPopup) {
+    videosData.forEach((videoObj, index) => {
+      const option = document.createElement("div");
+      option.className = "color-option";
+      option.style.backgroundColor = videoObj.hex;
+      option.setAttribute("aria-label", "Cor " + (index + 1));
 
-      button.addEventListener("click", function () {
+      option.addEventListener("click", function (e) {
+        e.stopPropagation();
         selectedVideoIndex = index;
-        updateSelectionUI();
-        // When selecting a new video, we want to play it immediately if we are already in interacted state
+
+        // Play if interacted
         if (hasInteracted) {
           setVideo(index);
         } else {
-          // If not interacted (shouldn't happen via modal usually, but good to be safe), just update index
           chosenIndex = index;
           setVideo(index);
         }
+
+        updateSelectionUI();
+        updatePreview();
       });
 
-      modalButtonsContainer.appendChild(button);
+      colorOptionsPopup.appendChild(option);
     });
   }
+
+  // Toggle Popup
+  if (colorSelectTrigger) {
+    colorSelectTrigger.addEventListener("click", function (e) {
+      e.stopPropagation();
+      colorOptionsPopup.classList.toggle("open");
+    });
+  }
+
+  // Close Popup when clicking outside
+  window.addEventListener("click", function (e) {
+    if (colorOptionsPopup && !colorOptionsPopup.contains(e.target) && !colorSelectTrigger.contains(e.target)) {
+      colorOptionsPopup.classList.remove("open");
+    }
+  });
 
   function getShareUrl() {
     const baseUrl = window.location.href.split("#")[0].split("?")[0];
@@ -538,10 +576,119 @@
 
   document.addEventListener("click", handleStartInteraction);
 
+  function updatePreview() {
+    // Re-select elements dynamically to handle DOM changes
+    const previewVideoRef = document.querySelector(".preview-video");
+
+    // Get Video
+    let videoIndex = selectedVideoIndex;
+    if (videoIndex === null || videoIndex === undefined) {
+      videoIndex = (typeof chosenIndex !== 'undefined') ? chosenIndex : 0;
+    }
+
+    const videoObj = videosData[videoIndex];
+    if (videoObj && previewVideoRef) {
+      // Check to prevent unnecessary reload but ensure video is correct
+      if (!previewVideoRef.src.includes(videoObj.loop)) {
+        previewVideoRef.src = videoObj.loop;
+        previewVideoRef.load();
+      }
+
+      if (previewVideoRef.paused) {
+        previewVideoRef.muted = true; // Required for auto-play
+        previewVideoRef.play().catch(e => console.log("Preview play error", e));
+      }
+    }
+
+    // Get Quote
+    let quoteText = "Frase Surpresa";
+    let songText = "";
+
+    if (currentQuoteSelection !== "-1") {
+      const quoteObj = quotesData[currentQuoteSelection];
+      if (quoteObj) {
+        quoteText = `"${quoteObj.text}"`;
+        if (quoteObj.year) {
+          songText = `${quoteObj.song} - ${quoteObj.artist} (${quoteObj.year})`;
+        } else {
+          songText = `${quoteObj.song} - ${quoteObj.artist}`;
+        }
+      }
+    }
+
+    const previewQuoteRef = document.querySelector(".preview-quote");
+    const previewSongRef = document.querySelector(".preview-song");
+
+    if (previewQuoteRef) previewQuoteRef.textContent = quoteText;
+    if (previewSongRef) previewSongRef.textContent = songText;
+  }
+
+  // Initial call
+  updatePreview();
 
   const overlay = document.querySelector(".start-overlay");
   // The global 'click' listener covers everything including the overlay.
   // We do NOT add a specific listener to overlay here to avoid double-counting.
 
+
+  // Debug: Long Press to Skip
+  let longPressTimer;
+  const LONG_PRESS_DURATION = 1000;
+
+  function handleLongPressStart(e) {
+    if (hasInteracted) return;
+
+    // Ignore if clicking on interactive elements
+    if (e.target.closest("button") || e.target.closest(".modal-content")) return;
+
+    longPressTimer = setTimeout(() => {
+      console.log("Debug: Long press triggered!");
+      skipToFinalState();
+    }, LONG_PRESS_DURATION);
+  }
+
+  function handleLongPressEnd() {
+    clearTimeout(longPressTimer);
+  }
+
+  function skipToFinalState() {
+    if (hasInteracted) return;
+    hasInteracted = true;
+
+    // Remove start listeners
+    document.removeEventListener("click", handleStartInteraction);
+    if (overlay) overlay.removeEventListener("click", handleStartInteraction);
+
+    // Hide Overlay
+    if (overlay) overlay.classList.add("hidden");
+
+    // Play Loop directly
+    if (currentVideoObj) {
+      mainVideo.src = currentVideoObj.loop;
+      mainVideo.loop = true;
+      mainVideo.muted = false;
+      mainVideo.play().catch(e => console.log("Debug play failed", e));
+
+      // Show UI
+      const caption = document.querySelector(".video-caption");
+      if (caption) caption.classList.add("visible");
+
+      const shareSection = document.querySelector(".share-section");
+      if (shareSection) shareSection.classList.add("visible");
+
+      // Start Music
+      bgMusic.play().then(() => {
+        isMusicPlaying = true;
+        updateMusicIcon();
+      }).catch(e => console.log("Debug music failed", e));
+    }
+  }
+
+  document.addEventListener("mousedown", handleLongPressStart);
+  document.addEventListener("touchstart", handleLongPressStart);
+
+  document.addEventListener("mouseup", handleLongPressEnd);
+  document.addEventListener("mouseleave", handleLongPressEnd);
+  document.addEventListener("touchend", handleLongPressEnd);
 
 })();
