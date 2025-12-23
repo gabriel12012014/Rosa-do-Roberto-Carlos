@@ -219,8 +219,13 @@
       background: #ffffff;
       border-radius: 16px;
       padding: 24px;
-      width: 90%;
-      max-width: 400px;
+      width: auto;
+      height: auto;
+      max-height: 90vh;
+      aspect-ratio: 9 / 16;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
       text-align: left;
       transform: translateY(20px);
       transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -234,7 +239,7 @@
     }
 
     .modal-title {
-      color: #328df9;
+      color: #333;
       font-size: 24px;
       font-weight: 700;
       margin-bottom: 8px;
@@ -246,6 +251,75 @@
       margin-bottom: 24px;
       font-weight: 400;
     }
+
+    /* Modal Columns Layout */
+    .modal-body-columns {
+      display: flex;
+      gap: 0;
+      align-items: flex-start;
+      flex: 1;
+      /* Take remaining height in modal */
+      min-height: 0;
+      /* Important for nested flex scrolling if needed */
+    }
+
+    .modal-col-left {
+      flex: 0 0 80%;
+      max-width: 80%;
+      height: 100%;
+      /* Fill column height */
+    }
+
+    .modal-col-right {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      /* Fill column height */
+    }
+
+    /* Adjust Preview Container for new layout */
+    .preview-container {
+      width: 100%;
+      height: auto;
+      margin: 0 auto;
+      aspect-ratio: 9 / 16;
+      /* removed object-fit as it applies to video inside */
+    }
+
+    /* Adjust selection row */
+    .selection-row {
+      flex-direction: row;
+      gap: 12px;
+      margin-bottom: 24px;
+      align-items: flex-start;
+    }
+
+    .quote-select-container {
+      flex: 1;
+      width: auto;
+    }
+
+    .color-select-container {
+      width: 48px;
+      display: block;
+    }
+
+    /* Stack Share Buttons Vertically */
+    .social-share-buttons {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      /* Align to bottom */
+      gap: 16px;
+      height: 100%;
+      /* Take full height of column to center vertically if needed */
+    }
+
+    /* Responsive adjustments */
+    /* Responsive adjustments removed to keep desktop layout on mobile as requested */
 
     /* Updated Selection UI */
     .selection-row {
@@ -399,7 +473,7 @@
     }
 
     .quote-select-container {
-      margin-bottom: 24px;
+      margin-bottom: 0px;
       width: 100%;
       text-align: left;
       position: relative;
@@ -426,8 +500,8 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 12px;
-      height: 44px;
+      padding: 8px 12px;
+      min-height: 44px;
       font-size: 14px;
       font-weight: 400;
       color: #333;
@@ -436,6 +510,17 @@
       border-radius: 8px;
       cursor: pointer;
       transition: all 0.2s;
+    }
+
+    .trigger-text {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      line-height: 1.3;
+      margin-right: 8px;
+      white-space: normal;
+      text-align: left;
     }
 
     .custom-select-trigger:hover {
@@ -555,7 +640,7 @@
     /* Social Share Buttons */
     .social-share-buttons {
       display: flex;
-      justify-content: center;
+      justify-content: bottom;
       gap: 8px;
       margin-bottom: 24px;
       flex-wrap: wrap;
@@ -726,7 +811,7 @@
 
     /* Share Preview Styles */
     .preview-container {
-      width: 50%;
+      width: 80%;
       margin: 0 auto 24px auto;
       aspect-ratio: 9 / 16;
       background: #000;
