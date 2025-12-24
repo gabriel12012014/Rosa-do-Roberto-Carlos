@@ -243,10 +243,12 @@
       background: #ffffff;
       border-radius: 16px;
       padding: 24px;
-      width: auto;
+      width: 400px;
+      max-width: 95vw;
+      /* Ensure it fits on small mobile screens */
       height: auto;
       max-height: 90vh;
-      aspect-ratio: 9 / 16;
+      /* aspect-ratio removed to fit content */
       display: flex;
       flex-direction: column;
       overflow-y: auto;
@@ -279,33 +281,42 @@
     /* Modal Columns Layout */
     .modal-body-columns {
       display: flex;
+      flex-direction: row;
+      /* Horizontal */
       gap: 0;
-      align-items: flex-start;
+      align-items: stretch;
+      /* Stretch to match height of tallest element (video) */
       flex: 1;
-      /* Take remaining height in modal */
-      min-height: 0;
-      /* Important for nested flex scrolling if needed */
+      width: 100%;
     }
 
     .modal-col-left {
       flex: 0 0 80%;
       max-width: 80%;
       height: 100%;
-      /* Fill column height */
     }
 
     .modal-col-right {
       flex: 1;
       display: flex;
-      align-items: center;
+      align-items: flex-end;
+      /* Align content to bottom */
       justify-content: center;
-      height: 100%;
-      /* Fill column height */
+      height: 428px;
+      padding-bottom: 4px;
+      /* Optional: slight adjustment */
+    }
+
+    @media (max-width: 768px) {
+      .modal-col-right {
+        height: 370px;
+      }
     }
 
     /* Adjust Preview Container for new layout */
     .preview-container {
       width: 100%;
+      max-width: 250px;
       height: auto;
       margin: 0 auto;
       aspect-ratio: 9 / 16;
@@ -331,15 +342,17 @@
     }
 
     /* Stack Share Buttons Vertically */
+    /* Stack Share Buttons Vertically - Bottom Up */
     .social-share-buttons {
       display: flex;
-      flex-direction: column;
+      flex-direction: column-reverse;
+      /* Stack upwards from bottom */
       align-items: center;
-      justify-content: flex-end;
-      /* Align to bottom */
+      justify-content: flex-start;
+      /* Start from the bottom (main start of column-reverse) */
       gap: 16px;
       height: 100%;
-      /* Take full height of column to center vertically if needed */
+      margin-top: 0;
     }
 
     /* Responsive adjustments */
