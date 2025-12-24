@@ -921,3 +921,32 @@
       margin-top: 4px;
       text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
     }
+
+    .top-credits {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3000;
+      /* Above everything including start overlay */
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 14px;
+      font-weight: 300;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+      pointer-events: auto;
+      /* Ensure links are clickable */
+      text-align: center;
+      width: 100%;
+      font-family: "Open Sans", sans-serif;
+    }
+
+    .top-credits a {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .top-credits a:hover {
+      color: #fff;
+      text-decoration: underline;
+    }

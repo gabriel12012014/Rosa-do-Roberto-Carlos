@@ -6,7 +6,7 @@
     const flashOverlay = document.querySelector(".flash-overlay");
     console.log("Easter Egg Timer Fired. Overlay found?", !!flashOverlay);
 
-    if (flashOverlay && Math.random() > 0.5) {
+    if (flashOverlay) {
       flashOverlay.classList.add("active");
       console.log("Easter Egg: SHOWING");
       setTimeout(() => {
@@ -14,7 +14,7 @@
         console.log("Easter Egg: HIDING");
       }, 100);
     } else {
-      console.log("Easter Egg: Skipped (Random) or Not Found");
+      console.log("Easter Egg: Not Found");
     }
   }, 1000);
 
