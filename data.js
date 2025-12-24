@@ -1,11 +1,32 @@
 // Dados das Rosas (Vídeos e Cores)
 window.videosData = [
     {
-        start: "assets/robertin_caixa-mexendo.mp4",
-        intro: "assets/robertin_caixa-abrindo.mp4",
-        loop: "assets/robertin_petalas-caindo.mp4",
-        colorClass: "is-pink",
-        hex: "#FFC0CB" // Rosa
+        start: "assets/robertin_caixa-mexendo_amarela.mp4",
+        intro: "assets/robertin_caixa-abrindo_amarela.mp4",
+        loop: "assets/robertin_petalas-caindo_amarela.mp4",
+        colorClass: "is-yellow",
+        hex: "#e5ce1eff"
+    },
+    {
+        start: "assets/robertin_caixa-mexendo_vermelha.mp4",
+        intro: "assets/robertin_caixa-abrindo_vermelha.mp4",
+        loop: "assets/robertin_petalas-caindo_vermelha.mp4",
+        colorClass: "is-red",
+        hex: "#df2828ff"
+    },
+    {
+        start: "assets/robertin_caixa-mexendo_azul.mp4",
+        intro: "assets/robertin_caixa-abrindo_azul.mp4",
+        loop: "assets/robertin_petalas-caindo_azul.mp4",
+        colorClass: "is-red",
+        hex: "#1e7ce1ff"
+    },
+    {
+        start: "assets/robertin_caixa-mexendo_branca.mp4",
+        intro: "assets/robertin_caixa-abrindo_branca.mp4",
+        loop: "assets/robertin_petalas-caindo_branca.mp4",
+        colorClass: "is-red",
+        hex: "#e4e8ecff"
     }
 ];
 

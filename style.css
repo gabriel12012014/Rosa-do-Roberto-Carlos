@@ -86,8 +86,32 @@
       /* White Stroke */
       -webkit-text-stroke: 1px white;
 
+      /* Drop Shadow Filter - Stronger */
+      filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 1));
+
       /* Pulse Animation */
       animation: heartbeat 5s infinite ease-in-out;
+    }
+
+    /* Start Overlay Text Animation */
+    .start-overlay span {
+      animation: pulse-scale 1.5s infinite ease-in-out;
+      display: inline-block;
+      /* Required for transform */
+    }
+
+    @keyframes pulse-scale {
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.1);
+      }
+
+      100% {
+        transform: scale(1);
+      }
     }
 
     @keyframes shake {
@@ -367,7 +391,8 @@
       padding: 8px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
+      /* Horizontal layout */
       gap: 8px;
       opacity: 0;
       visibility: hidden;
@@ -375,7 +400,7 @@
       transition: all 0.2s cubic-bezier(0.5, 0, 0, 1.25);
       z-index: 20;
       margin-bottom: 8px;
-      min-width: 60px;
+      min-width: auto;
       align-items: center;
     }
 
@@ -474,10 +499,13 @@
 
     .quote-select-container {
       margin-bottom: 0px;
-      width: 100%;
+      /* width: 100%; Removed to allow flex shrink */
+      min-width: 0;
+      /* Important for flex child shrinking */
+      flex: 1;
+      /* Retain flex behavior here just in case */
       text-align: left;
       position: relative;
-      /* For absolute positioning of options */
     }
 
     .quote-select-label {
@@ -538,15 +566,16 @@
       border: 1px solid #ddd;
       border-radius: 8px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      z-index: 10;
+      z-index: 100;
+      /* Increased z-index to ensure it is above video */
       opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-      transform: translateY(-10px);
-      transition: all 0.2s cubic-bezier(0.5, 0, 0, 1.25);
       max-height: 200px;
       overflow-y: auto;
       margin-top: 8px;
+      transition: all 0.3s cubic-bezier(0.5, 0, 0, 1.25);
+      pointer-events: none;
+      transform: translateY(-10px);
+      visibility: hidden;
     }
 
     .custom-select-wrapper.open .custom-options {
@@ -559,8 +588,11 @@
     .custom-option {
       position: relative;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      flex-direction: column;
+      /* Stack vertically */
+      align-items: flex-start;
+      /* Align left */
+      justify-content: center;
       padding: 12px;
       font-size: 13px;
       font-weight: 400;
@@ -568,6 +600,8 @@
       cursor: pointer;
       transition: background 0.2s;
       border-bottom: 1px solid #f0f0f0;
+      gap: 4px;
+      /* Space between phrase and song */
     }
 
     .custom-option:last-child {
@@ -585,11 +619,11 @@
     }
 
     .option-text {
-      flex: 1;
+      width: 100%;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      margin-right: 12px;
+      margin-right: 0;
       text-align: left;
     }
 
@@ -597,6 +631,10 @@
       font-size: 11px;
       color: #999;
       white-space: nowrap;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-align: left;
     }
 
     .arrow {

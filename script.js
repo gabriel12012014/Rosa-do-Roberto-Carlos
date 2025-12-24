@@ -71,10 +71,8 @@
       option.className = "custom-option";
       option.dataset.value = index;
 
-      const truncatedText = quote.text.length > 30 ? quote.text.substring(0, 30) + "..." : quote.text;
-
       option.innerHTML = `
-        <span class="option-text">${truncatedText}</span>
+        <span class="option-text">${quote.text}</span>
         <span class="option-song">${quote.song}</span>
       `;
 
